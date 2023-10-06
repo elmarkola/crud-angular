@@ -7,17 +7,19 @@ import{ tap, first, delay } from 'rxjs/operators';
 })
 export class CoursesService {
 
-  private readonly API = '/assets/courses.json';
+  private readonly API = 'api/courses';
 
-  constructor(private httpCLient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   list(){
-    return this.httpCLient.get<Course[]>(this.API)
+    return this.httpClient.get<Course[]>(this.API)
     .pipe(
-      first(),
-      delay(5000),
-      tap(courses => console.log(courses))
+      first()
     );
+  }
+
+  save(record: Partial<Course>){
+    return this.httpClient.post<Course>(this.API,record).pipe(first());
   }
 
 }
